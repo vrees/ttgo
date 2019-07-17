@@ -34,6 +34,8 @@
 #include <lmic.h>
 #include <hal/hal.h>
 #include <SPI.h>
+#include <U8x8lib.h>
+
 
 // LoRaWAN NwkSKey, network session key
 // This is the default Semtech key, which is used by the early prototype TTN
@@ -61,6 +63,13 @@ static osjob_t sendjob;
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
 const unsigned TX_INTERVAL = 30;
+
+#define LMIC_DEBUG_LEVEL 2
+
+
+//For TTGO LoRa32 V2 use:
+U8X8_SSD1306_128X64_NONAME_HW_I2C display(/*rst*/ U8X8_PIN_NONE);
+
 
 // Pin mapping
 //For TTGO LoRa32 V2 use:
@@ -157,7 +166,13 @@ void do_send(osjob_t* j){
 
 void setup() {
     Serial.begin(115200);
-    Serial.println(F("Starting"));
+    Serial.println(F("Starting ..."));
+
+    display.begin();
+    display.setFont(u8x8_font_victoriamedium8_r);  
+    //display.setFont(u8x8_font_chroma48medium8_r);
+    display.drawString(0,3,"Hello World!");
+
 
     #ifdef VCC_ENABLE
     // For Pinoccio Scout boards
@@ -168,8 +183,11 @@ void setup() {
 
     // LMIC init
     os_init();
+
+    Serial.println(F("Done os_init()"));
     // Reset the MAC state. Session and pending data transfers will be discarded.
     LMIC_reset();
+    Serial.println(F("Done LMIC_reset()"));    
 
     // Set static session parameters. Instead of dynamically establishing a session
     // by joining the network, precomputed session parameters are be provided.
@@ -186,8 +204,10 @@ void setup() {
     // If not running an AVR with PROGMEM, just use the arrays directly
     LMIC_setSession (0x1, DEVADDR, NWKSKEY, APPSKEY);
     #endif
-
+    Serial.println(F("Done LMIC_setSession()"));   
+    
     #if defined(CFG_eu868)
+    Serial.println(F("CFG_eu868"));
     // Set up the channels used by the Things Network, which corresponds
     // to the defaults of most gateways. Without this, only three base
     // channels from the LoRaWAN specification are used, which certainly
@@ -226,6 +246,7 @@ void setup() {
 
     // Set data rate and transmit power for uplink (note: txpow seems to be ignored by the library)
     LMIC_setDrTxpow(DR_SF7,14);
+    Serial.println(F("Done LMIC_setDrTxpow()"));
 
     // Start job
     do_send(&sendjob);
