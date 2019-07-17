@@ -29,6 +29,8 @@
  *
  *******************************************************************************/
 
+ // see https://www.thethingsnetwork.org/forum/t/big-esp32-sx127x-topic-part-3/18436
+
 #include <lmic.h>
 #include <hal/hal.h>
 #include <SPI.h>
@@ -58,14 +60,22 @@ static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
-const unsigned TX_INTERVAL = 60;
+const unsigned TX_INTERVAL = 30;
 
 // Pin mapping
+//For TTGO LoRa32 V2 use:
+//Note: LoRa32 V2 DIO1 and DIO2 are not on-board wired to any GPIO.
+//These need to be wired manually.
+//DIO2 is actually not needed for LoRa(WAN) so does not need to be wired.
+
 const lmic_pinmap lmic_pins = {
-    .nss = 6,
+    .nss = 18, 
     .rxtx = LMIC_UNUSED_PIN,
-    .rst = 5,
-    .dio = {2, 3, 4},
+    .rst = LMIC_UNUSED_PIN,
+    //If DIO2 is not connected use:
+    //.dio = {/*dio0*/ 26, /*dio1*/ 33, /*dio2*/ LMIC_UNUSED_PIN} 
+    //If DIO2 is connected use:
+    .dio = {/*dio0*/ 26, /*dio1*/ 33, /*dio2*/ 32} 
 };
 
 void onEvent (ev_t ev) {
