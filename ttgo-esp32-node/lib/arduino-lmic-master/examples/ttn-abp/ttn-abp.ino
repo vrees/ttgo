@@ -29,26 +29,22 @@
  *
  *******************************************************************************/
 
- // see https://www.thethingsnetwork.org/forum/t/big-esp32-sx127x-topic-part-3/18436
-
 #include <lmic.h>
 #include <hal/hal.h>
 #include <SPI.h>
-#include <U8x8lib.h>
-
 
 // LoRaWAN NwkSKey, network session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const PROGMEM u1_t NWKSKEY[16] = { 0x75, 0x5F, 0x0C, 0x41, 0xB6, 0xEA, 0x64, 0x34, 0xE8, 0x63, 0xAB, 0x6E, 0x43, 0xE3, 0xEA, 0x68 };
+static const PROGMEM u1_t NWKSKEY[16] = { 0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C };
 
 // LoRaWAN AppSKey, application session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const u1_t PROGMEM APPSKEY[16] = { 0x06, 0xFB, 0x75, 0x58, 0x21, 0x2E, 0xCF, 0x3D, 0xC0, 0xA5, 0x8F, 0x7B, 0x4C, 0xE6, 0x13, 0xE1 };
+static const u1_t PROGMEM APPSKEY[16] = { 0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C };
 
 // LoRaWAN end-device address (DevAddr)
-static const u4_t DEVADDR = 0x26011CFD ; // <-- Change this address for every node!
+static const u4_t DEVADDR = 0x03FF0001 ; // <-- Change this address for every node!
 
 // These callbacks are only used in over-the-air activation, so they are
 // left empty here (we cannot leave them out completely unless
@@ -62,29 +58,14 @@ static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
-const unsigned TX_INTERVAL = 30;
-
-#define LMIC_DEBUG_LEVEL 2
-
-
-//For TTGO LoRa32 V2 use:
-U8X8_SSD1306_128X64_NONAME_HW_I2C display(/*rst*/ U8X8_PIN_NONE);
-
+const unsigned TX_INTERVAL = 60;
 
 // Pin mapping
-//For TTGO LoRa32 V2 use:
-//Note: LoRa32 V2 DIO1 and DIO2 are not on-board wired to any GPIO.
-//These need to be wired manually.
-//DIO2 is actually not needed for LoRa(WAN) so does not need to be wired.
-
 const lmic_pinmap lmic_pins = {
-    .nss = 18, 
+    .nss = 6,
     .rxtx = LMIC_UNUSED_PIN,
-    .rst = LMIC_UNUSED_PIN,
-    //If DIO2 is not connected use:
-    //.dio = {/*dio0*/ 26, /*dio1*/ 33, /*dio2*/ LMIC_UNUSED_PIN} 
-    //If DIO2 is connected use:
-    .dio = {/*dio0*/ 26, /*dio1*/ 33, /*dio2*/ 32} 
+    .rst = 5,
+    .dio = {2, 3, 4},
 };
 
 void onEvent (ev_t ev) {
@@ -166,13 +147,7 @@ void do_send(osjob_t* j){
 
 void setup() {
     Serial.begin(115200);
-    Serial.println(F("Starting ..."));
-
-    display.begin();
-    display.setFont(u8x8_font_victoriamedium8_r);  
-    //display.setFont(u8x8_font_chroma48medium8_r);
-    display.drawString(0,3,"Hello World!");
-
+    Serial.println(F("Starting"));
 
     #ifdef VCC_ENABLE
     // For Pinoccio Scout boards
@@ -183,11 +158,8 @@ void setup() {
 
     // LMIC init
     os_init();
-
-    Serial.println(F("Done os_init()"));
     // Reset the MAC state. Session and pending data transfers will be discarded.
     LMIC_reset();
-    Serial.println(F("Done LMIC_reset()"));    
 
     // Set static session parameters. Instead of dynamically establishing a session
     // by joining the network, precomputed session parameters are be provided.
@@ -204,10 +176,8 @@ void setup() {
     // If not running an AVR with PROGMEM, just use the arrays directly
     LMIC_setSession (0x1, DEVADDR, NWKSKEY, APPSKEY);
     #endif
-    Serial.println(F("Done LMIC_setSession()"));   
-    
+
     #if defined(CFG_eu868)
-    Serial.println(F("CFG_eu868"));
     // Set up the channels used by the Things Network, which corresponds
     // to the defaults of most gateways. Without this, only three base
     // channels from the LoRaWAN specification are used, which certainly
@@ -246,7 +216,6 @@ void setup() {
 
     // Set data rate and transmit power for uplink (note: txpow seems to be ignored by the library)
     LMIC_setDrTxpow(DR_SF7,14);
-    Serial.println(F("Done LMIC_setDrTxpow()"));
 
     // Start job
     do_send(&sendjob);
