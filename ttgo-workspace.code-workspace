@@ -3,6 +3,10 @@
 		{
 			"name": "ttgo-esp32-node",
 			"path": "ttgo-esp32-node"
+		},
+		{
+			"name": "ttgo-ttn-tracker",
+			"path": "ttgo-ttn-tracker"
 		}
 	],
 	"settings": {
