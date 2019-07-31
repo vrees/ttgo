@@ -46,7 +46,7 @@ float FIX_LONG = 7.900461;
 
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
-const unsigned TX_INTERVAL = 60;
+const unsigned TX_INTERVAL = 120;
 
 // Pin mapping
 //const lmic_pinmap lmic_pins = {
@@ -248,7 +248,7 @@ void setup() {
   LMIC.dn2Dr = DR_SF9;
 
   // Set data rate and transmit power for uplink (note: txpow seems to be ignored by the library)
-  LMIC_setDrTxpow(DR_SF7, 15);
+  LMIC_setDrTxpow(DR_SF12, 15);
 
   // Start job
   do_send(&sendjob);
