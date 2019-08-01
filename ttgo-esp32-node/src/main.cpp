@@ -39,11 +39,11 @@
 // first. When copying an EUI from ttnctl output, this means to reverse
 // the bytes. For TTN issued EUIs the last bytes should be 0xD5, 0xB3,
 // 0x70.
-static const u1_t PROGMEM APPEUI[8]={ 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x00, 0xC5, 0xBE };
+static const u1_t PROGMEM APPEUI[8]={ 0xBE, 0xC5, 0x00, 0xD0, 0x7E, 0xD5, 0xB3, 0x70 };
 void os_getArtEui (u1_t* buf) { memcpy_P(buf, APPEUI, 8);}
 
 // This should also be in little endian format, see above.
-static const u1_t PROGMEM DEVEUI[8]={ 0x00, 0x56, 0xED, 0x71, 0x6A, 0x1B, 0x2E, 0x6D };
+static const u1_t PROGMEM DEVEUI[8]={ 0x6D, 0x2E, 0x1B, 0x6A, 0x71, 0xED, 0x56, 0x00 };
 void os_getDevEui (u1_t* buf) { memcpy_P(buf, DEVEUI, 8);}
 
 // This key should be in big endian format (or, since it is not really a
@@ -68,6 +68,7 @@ const lmic_pinmap lmic_pins = {
     .nss = 18, 
     .rxtx = LMIC_UNUSED_PIN,
     .rst = 14,
+    //.rst = LMIC_UNUSED_PIN,
     .dio = {/*dio0*/ 26, /*dio1*/ 33, /*dio2*/ 32}
 };
 
