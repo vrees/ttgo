@@ -1,6 +1,5 @@
 /*******************************************************************************
  * Copyright (c) 2015 Matthijs Kooijman
- * Copyright (c) 2018 Terry Moore, MCCI Corporation
  *
  * Permission is hereby granted, free of charge, to anyone
  * obtaining a copy of this document and accompanying files,
@@ -17,16 +16,10 @@
 #include <hal/hal.h>
 #include <SPI.h>
 
-// we formerly would check this configuration; but now there is a flag,
-// in the LMIC, LMIC.noRXIQinversion;
-// if we set that during init, we get the same effect.  If
-// DISABLE_INVERT_IQ_ON_RX is defined, it means that LMIC.noRXIQinversion is
-// treated as always set.
-//
-// #if !defined(DISABLE_INVERT_IQ_ON_RX)
-// #error This example requires DISABLE_INVERT_IQ_ON_RX to be set. Update \
-//        lmic_project_config.h in arduino-lmic/project_config to set it.
-// #endif
+#if !defined(DISABLE_INVERT_IQ_ON_RX)
+#error This example requires DISABLE_INVERT_IQ_ON_RX to be set. Update \
+       config.h in the lmic library to set it.
+#endif
 
 // How often to send a packet. Note that this sketch bypasses the normal
 // LMIC duty cycle limiting, so when you change anything in this sketch
@@ -47,8 +40,7 @@ const lmic_pinmap lmic_pins = {
 
 // These callbacks are only used in over-the-air activation, so they are
 // left empty here (we cannot leave them out completely unless
-// DISABLE_JOIN is set in arduino-lmoc/project_config/lmic_project_config.h,
-// otherwise the linker will complain).
+// DISABLE_JOIN is set in config.h, otherwise the linker will complain).
 void os_getArtEui (u1_t* buf) { }
 void os_getDevEui (u1_t* buf) { }
 void os_getDevKey (u1_t* buf) { }
@@ -146,8 +138,6 @@ void setup() {
   LMIC.freq = 869525000;
 #elif defined(CFG_us915)
   LMIC.freq = 902300000;
-#else
-  error Region not supported!
 #endif
 
   // Maximum TX power
@@ -158,9 +148,6 @@ void setup() {
   LMIC.datarate = DR_SF9;
   // This sets CR 4/5, BW125 (except for DR_SF7B, which uses BW250)
   LMIC.rps = updr2rps(LMIC.datarate);
-
-  // disable RX IQ inversion
-  LMIC.noRXIQinversion = true;
 
   Serial.println("Started");
   Serial.flush();
