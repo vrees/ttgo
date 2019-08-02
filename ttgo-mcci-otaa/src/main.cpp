@@ -234,7 +234,7 @@ void setupSensors()
 {
     display.begin();
     display.setFont(u8x8_font_chroma48medium8_r);
-    display.drawString(0, 3, "Starting");
+    display.drawString(0, 0, "Starting");
 
     if (!bmp.begin())
     {
@@ -252,22 +252,23 @@ void readSensorValues()
 {
     float tempertur = bmp.readTemperature();
     float pressure = bmp.readPressure() / 100;
-    float altitude = bmp.readAltitude(1013.25);
+    float humidity = bmp.readHumidity();
+    char buff[20];
 
-    Serial.print("T = ");
-    Serial.print(tempertur);
-    Serial.println(" °C");
+    snprintf(buff, sizeof(buff), "T = %3.1f °C", tempertur);
+    Serial.println(buff);
+    display.drawString(0, 0, buff);
 
-    Serial.print("P = ");
-    Serial.print(pressure);
-    Serial.println(" hPa ");
+    snprintf(buff, sizeof(buff), "P = %2.2f hPa", pressure);
+    Serial.println(buff);
+    display.drawString(0, 1, buff);
 
-    Serial.print("H = ");
-    Serial.print(altitude);
-    Serial.println(" m");
+    snprintf(buff, sizeof(buff), "H = %3.2f  %%", humidity);
+    Serial.println(buff);
+    display.drawString(0, 2, buff);
 
     lpp.reset();
     lpp.addTemperature(1, tempertur);
     lpp.addRelativeHumidity(2, pressure);
-    lpp.addAnalogOutput(3, altitude);
+    lpp.addRelativeHumidity(3, humidity);
 }
