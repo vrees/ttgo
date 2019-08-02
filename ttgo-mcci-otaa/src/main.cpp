@@ -58,12 +58,11 @@ void os_getDevEui(u1_t *buf) { memcpy_P(buf, DEVEUI, 8); }
 static const u1_t PROGMEM APPKEY[16] = {0x3F, 0xFF, 0x67, 0xC2, 0xA3, 0x2D, 0x87, 0x10, 0x03, 0x7E, 0xBC, 0x3D, 0xBC, 0x77, 0xA1, 0x97};
 void os_getDevKey(u1_t *buf) { memcpy_P(buf, APPKEY, 16); }
 
-static uint8_t mydata[] = "Go for Gold!";
 static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
-const unsigned TX_INTERVAL = 30;
+const unsigned TX_INTERVAL = 60;
 //For TTGO LoRa32 V2 use:
 U8X8_SSD1306_128X64_NONAME_HW_I2C display(/*rst*/ U8X8_PIN_NONE);
 CayenneLPP lpp(51);
@@ -269,6 +268,6 @@ void readSensorValues()
 
     lpp.reset();
     lpp.addTemperature(1, tempertur);
-    lpp.addRelativeHumidity(2, pressure);
+    lpp.addBarometricPressure(2, pressure);
     lpp.addRelativeHumidity(3, humidity);
 }
