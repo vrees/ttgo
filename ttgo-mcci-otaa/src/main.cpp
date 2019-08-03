@@ -66,6 +66,7 @@ const unsigned TX_INTERVAL = 60;
 //For TTGO LoRa32 V2 use:
 U8X8_SSD1306_128X64_NONAME_HW_I2C display(/*rst*/ U8X8_PIN_NONE);
 CayenneLPP lpp(51);
+char buff[20];
 
 // Sensors
 #define BMP_SDA 21
@@ -81,6 +82,7 @@ const lmic_pinmap lmic_pins = {
     .dio = {/*dio0*/ 26, /*dio1*/ 33, /*dio2*/ 32}};
 
 void readSensorValues();
+void readDownloadData();
 void do_send(osjob_t *j);
 void loop();
 void setupSensors();
@@ -159,6 +161,8 @@ void onEvent(ev_t ev)
             Serial.print(F("Received "));
             Serial.print(LMIC.dataLen);
             Serial.println(F(" bytes of payload"));
+
+            readDownloadData();
         }
         // Schedule next transmission
         os_setTimedCallback(&sendjob, os_getTime() + sec2osticks(TX_INTERVAL), do_send);
@@ -252,7 +256,7 @@ void readSensorValues()
     float tempertur = bmp.readTemperature();
     float pressure = bmp.readPressure() / 100;
     float humidity = bmp.readHumidity();
-    char buff[20];
+
 
     snprintf(buff, sizeof(buff), "T = %3.1f °C", tempertur);
     Serial.println(buff);
@@ -269,5 +273,19 @@ void readSensorValues()
     lpp.reset();
     lpp.addTemperature(1, tempertur);
     lpp.addBarometricPressure(2, pressure);
-    lpp.addRelativeHumidity(3, humidity);
+    lpp.addRelativeHumidity(3, humidity);    
+}
+
+void readDownloadData() {
+    snprintf(buff, sizeof(buff), "RSSI = %d dB", LMIC.rssi);
+    Serial.println(buff);
+    display.drawString(0, 3, buff);
+
+    snprintf(buff, sizeof(buff), "SNR = %.1d dB", LMIC.snr);
+    Serial.println(buff);
+    display.drawString(0, 4, buff);
+
+    snprintf(buff, sizeof(buff), "RX = %d bytes", LMIC.dataLen);
+    Serial.println(buff);
+    display.drawString(0, 5, buff);
 }
