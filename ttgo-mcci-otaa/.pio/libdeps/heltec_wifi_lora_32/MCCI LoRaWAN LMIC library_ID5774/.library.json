@@ -1,0 +1,74 @@
+{
+    "name": "MCCI LoRaWAN LMIC library", 
+    "version": "2.3.2", 
+    "keywords": [
+        "communication"
+    ], 
+    "description": "Arduino port of the LMIC (LoraWAN-MAC-in-C) framework provided by IBM.", 
+    "frameworks": [
+        "arduino"
+    ], 
+    "platforms": [
+        "atmelavr", 
+        "atmelsam", 
+        "espressif32", 
+        "espressif8266", 
+        "intel_arc32", 
+        "microchippic32", 
+        "nordicnrf51", 
+        "nordicnrf52", 
+        "ststm32", 
+        "ststm8", 
+        "teensy", 
+        "timsp430"
+    ], 
+    "authors": [
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "IBM"
+        }, 
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "Matthis Kooijman"
+        }, 
+        {
+            "email": "tmm@mcci.com", 
+            "url": null, 
+            "maintainer": true, 
+            "name": "Terry Moore"
+        }, 
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "ChaeHee Won"
+        }, 
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "Frank Rose"
+        }
+    ], 
+    "repository": {
+        "type": "git", 
+        "url": "https://github.com/mcci-catena/arduino-lmic"
+    }, 
+    "homepage": null, 
+    "export": {
+        "include": null, 
+        "exclude": [
+            "extras", 
+            "docs", 
+            "tests", 
+            "test", 
+            "*.doxyfile", 
+            "*.pdf"
+        ]
+    }, 
+    "id": 5774
+}

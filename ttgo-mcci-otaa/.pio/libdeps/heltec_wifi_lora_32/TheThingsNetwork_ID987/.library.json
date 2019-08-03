@@ -1,0 +1,58 @@
+{
+    "name": "TheThingsNetwork", 
+    "version": "2.5.16", 
+    "keywords": [
+        "communication"
+    ], 
+    "description": "The Things Network Arduino Library.", 
+    "frameworks": [
+        "arduino"
+    ], 
+    "platforms": [
+        "atmelavr", 
+        "atmelsam", 
+        "espressif32", 
+        "espressif8266", 
+        "infineonxmc", 
+        "intel_arc32", 
+        "kendryte210", 
+        "microchippic32", 
+        "nordicnrf51", 
+        "nordicnrf52", 
+        "ststm32", 
+        "ststm8", 
+        "teensy", 
+        "timsp430"
+    ], 
+    "authors": [
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "The Things Network"
+        }, 
+        {
+            "email": "johan@thethingsnetwork.org", 
+            "url": null, 
+            "maintainer": true, 
+            "name": "Johan Stokking"
+        }
+    ], 
+    "repository": {
+        "type": "git", 
+        "url": "https://github.com/TheThingsNetwork/arduino-device-lib"
+    }, 
+    "homepage": null, 
+    "export": {
+        "include": null, 
+        "exclude": [
+            "extras", 
+            "docs", 
+            "tests", 
+            "test", 
+            "*.doxyfile", 
+            "*.pdf"
+        ]
+    }, 
+    "id": 987
+}
