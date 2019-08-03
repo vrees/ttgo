@@ -36,6 +36,8 @@ const lmic_pinmap lmic_pins = {
     .dio = {26, 33, 32},
 };
 
+void do_send(osjob_t *j);
+
 void onEvent(ev_t ev)
 {
   switch (ev)
