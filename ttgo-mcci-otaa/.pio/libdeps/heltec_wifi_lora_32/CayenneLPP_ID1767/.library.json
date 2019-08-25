@@ -1,6 +1,6 @@
 {
     "name": "CayenneLPP", 
-    "version": "1.0.1", 
+    "version": "1.0.2", 
     "keywords": [
         "communication"
     ], 
@@ -13,11 +13,14 @@
         "atmelsam", 
         "espressif32", 
         "espressif8266", 
+        "infineonxmc", 
         "intel_arc32", 
+        "kendryte210", 
         "microchippic32", 
         "nordicnrf51", 
         "nordicnrf52", 
         "ststm32", 
+        "ststm8", 
         "teensy", 
         "timsp430"
     ], 
@@ -33,7 +36,7 @@
         "type": "git", 
         "url": "https://github.com/sabas1080/CayenneLPP"
     }, 
-    "homepage": null, 
+    "homepage": "https://github.com/ElectronicCats/CayenneLPP", 
     "export": {
         "include": null, 
         "exclude": [

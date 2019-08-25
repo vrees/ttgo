@@ -12,7 +12,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/home/vrees/dev/git-repos/ttgo/ttgo-mcci-otaa/.pio/build/heltec_wifi_lora_32/firmware.elf",
+            "executable": "/home/vrees/work/git-repos/ttgo/ttgo-mcci-otaa/.pio/build/heltec_wifi_lora_32/firmware.elf",
             "toolchainBinDir": "/home/vrees/.platformio/packages/toolchain-xtensa32/bin",
             "preLaunchTask": {
                 "type": "PlatformIO",
@@ -24,7 +24,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/home/vrees/dev/git-repos/ttgo/ttgo-mcci-otaa/.pio/build/heltec_wifi_lora_32/firmware.elf",
+            "executable": "/home/vrees/work/git-repos/ttgo/ttgo-mcci-otaa/.pio/build/heltec_wifi_lora_32/firmware.elf",
             "toolchainBinDir": "/home/vrees/.platformio/packages/toolchain-xtensa32/bin",
             "internalConsoleOptions": "openOnSessionStart"
         }
